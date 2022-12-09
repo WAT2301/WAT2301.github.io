@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tại sao m lại ấn vào đây</title>
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+  }
+  body{
+    width: 100%;
+    background: #222;
+    min-height: 100vh;
+    font-family: monospace;
+    --time: 10s;
+  }
+  .flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .c{
+    flex-flow: column;
+  }
+  .bod .cir{
+    width: 200px;
+    height: 200px;border-radius: 50%;
+    border: 30px solid #000;
+  }
+  .bod .cir.cr2{
+    left: -30px;
+  }
+  .bod{
+    position: absolute;
+  }
+  .circle{
+    width: 200px;
+    height: 200px;border-radius: 50%;
+    animation: rot var(--time) linear infinite;
+  }
+  .circle.c2{
+    animation: rot var(--time) linear infinite reverse calc(var(--time)/-2);
+  }
+  @keyframes rot {
+    100%{
+      transform: rotate(-360deg);
+    }    
+  }
+
+  .circle div{
+    position: absolute;
+    transform: rotate(calc(var(--i)*13deg)) translateX(85px) ;
+    color: #00ff70;
+    text-shadow: 0 0 40px #00ff70,0 0 20px #00ff70,0 0 100px #00ff70;
+    filter: hue-rotate(calc(var(--i)*30deg));
+    font-weight: bold;
+    display: none;
+  }
+  .circle.c2 div{
+    transform: rotate(calc(var(--i)*-13deg)) translateX(85px);
+  }
+
+  .circle div span{
+    display: block;
+    animation: rots var(--time) linear infinite;
+  }
+  .circle.c2 div span{
+    display: block;
+    animation: rots var(--time) linear reverse infinite calc(var(--time)/-2);
+  }
+
+  @keyframes rots {
+    100%{
+      transform: rotate(360deg);
+    }    
+  }
+  .m2{
+    left: -30px;
+  }
+</style>
+<body class="flex">
+  <div class="bod flex">
+    <div class="cir"></div>
+    <div class="cir cr2"></div>
+  </div>
+  <div class="main">
+    <div class="circle flex"></div>
+  </div>
+  <div class="main m2">
+    <div class="circle c2 flex"></div>
+  </div>
+  
+<script>
+  var log=console.log;
+  function op(e){return document.querySelector(e)}
+  function opp(e){return document.querySelectorAll(e)}
+
+  var txt="Infinity Circus",cir=opp(".circle"),html="";
+
+  for(let i=0; i<txt.length; i++){
+    html+=`<div style="--i: ${i};"><span>${txt.charAt(i)}</span></div>`;
+  }
+  cir.forEach(val=>{val.innerHTML=html});
+
+  var cirNum=0,intAp=false,
+  animTim=10000;
+
+  switchCir();
+  setInterval(switchCir,animTim);
+
+  function switchCir(){
+    var parent=cir[cirNum],
+    num=0;
+    intAp=setInterval(()=>{
+      parent.children[num].style.display="none";
+      cir[(cirNum)%2].children[num].style.display="block";
+      log(cir[(cirNum)%2])
+      num++;
+      if(num>=txt.length){
+        clearInterval(intAp);
+      }
+    },animTim/10/360*143-100);
+    cirNum=(++cirNum)%2;
+  }
+
+</script>
+</body>
+</html>
